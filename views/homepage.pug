@@ -15,8 +15,12 @@ html
                     th Property 2 Label
                     th Property 3 Label
             tbody
-                each record in data
-                    tr
-                        td= record.properties.prop_1
-                        td= record.properties.prop_2
-                        td= record.properties.prop_3
+                if data && data.length > 0
+                    each record in data
+                        tr
+                            td= record.properties.prop_1
+                            td= record.properties.prop_2
+                            td= record.properties.prop_3
+                else
+                        tr
+                            td(colspan="3") No records found.

@@ -13,31 +13,53 @@ const PRIVATE_APP_ACCESS = '';
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 app.get('/', async (req, res) => {
-    // This usually lists the custom object records
-    res.render('homepage', { title: 'Custom Objects | HubSpot Foundations' });
+    const objectTypeId = '2-59261851';
+    const properties = 'pet_name,pet_type,weight'; 
+    const url = `https://api.hubapi.com/crm/v3/objects/${objectTypeId}?properties=${properties}`;
+    
+    const headers = {
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try {
+        const response = await axios.get(url, { headers });
+        const data = response.data.results;
+        res.render('homepage', { 
+            title: 'Custom Objects | HubSpot Foundations', 
+            data 
+        });      
+    } catch (error) {
+        console.error('Error fetching custom objects:', error);
+        res.status(500).send('Error fetching data');
+    }
 });
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
 app.get('/update-cobj', async (req, res) => {
-    res.render('updates', { 
-        title: 'Update Custom Object Form | Integrating With HubSpot I Practicum' 
-    });
+    try {
+        res.render('updates', { 
+            title: 'Update Custom Object Form | Integrating With HubSpot I Practicum' 
+        });
+    } catch (error) {
+        console.error(error);
+    }
 });
+
+
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 app.post('/update-cobj', async (req, res) => {
     const update = {
         properties: {
-            "pet_name": req.body.first_property_name,
-            "pet_type": req.body.second_property_name,
-            "weight": req.body.third_property_name
+            "pet_name": req.body.pet_name, // Ensure these match your Pug input 'name' attributes
+            "pet_type": req.body.pet_type,
+            "weight": req.body.weight
         }
     }
 
-    // You will need to find your Object Type ID in HubSpot 
-    // It usually looks like '2-xxxxxxx' for custom objects
     const objectTypeId = '2-59261851';
     const updateCustomObject = `https://api.hubapi.com/crm/v3/objects/${objectTypeId}`;
     const headers = {
@@ -47,7 +69,6 @@ app.post('/update-cobj', async (req, res) => {
 
     try { 
         await axios.post(updateCustomObject, update, { headers } );
-        // Success! Now redirect back to the home page
         res.redirect('/');
     } catch(err) {
         console.error(err);
