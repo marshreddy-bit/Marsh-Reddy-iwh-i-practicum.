@@ -20,24 +20,39 @@ app.get('/', async (req, res) => {
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
 app.get('/update-cobj', async (req, res) => {
-    res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot' });
+    res.render('updates', { 
+        title: 'Update Custom Object Form | Integrating With HubSpot I Practicum' 
+    });
 });
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 app.post('/update-cobj', async (req, res) => {
-    const newData = {
+    const update = {
         properties: {
-            "prop_1": req.body.prop_1,
-            "prop_2": req.body.prop_2,
-            "prop_3": req.body.prop_3
+            "first_property_name": req.body.first_property_name,
+            "second_property_name": req.body.second_property_name,
+            "third_property_name": req.body.third_property_name
         }
     }
-    // Logic to axios.post to HubSpot goes here
-    res.redirect('/');
-});
 
-app.listen(3000, () => console.log('Listening on http://localhost:3000'));
+    // You will need to find your Object Type ID in HubSpot 
+    // It usually looks like '2-xxxxxxx' for custom objects
+    const objectTypeId = '2-59261851';
+    const updateCustomObject = `https://api.hubapi.com/crm/v3/objects/${objectTypeId}`;
+    const headers = {
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try { 
+        await axios.post(updateCustomObject, update, { headers } );
+        // Success! Now redirect back to the home page
+        res.redirect('/');
+    } catch(err) {
+        console.error(err);
+    }
+});
 
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
