@@ -18,7 +18,7 @@ app.get('/', async (req, res) => {
     const url = `https://api.hubapi.com/crm/v3/objects/${objectTypeId}?properties=${properties}`;
     
     const headers = {
-        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
 
@@ -63,7 +63,7 @@ app.post('/update-cobj', async (req, res) => {
     const objectTypeId = '2-59261851';
     const updateCustomObject = `https://api.hubapi.com/crm/v3/objects/${objectTypeId}`;
     const headers = {
-        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
 

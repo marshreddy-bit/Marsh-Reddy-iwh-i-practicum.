@@ -2,7 +2,6 @@ doctype html
 html 
     head 
         title= title
-        meta(name="viewport" content="width=device-width, initial-scale=1")
         link(rel="stylesheet", href="/css/style.css")
     body    
         h1 Custom Object Records
@@ -11,16 +10,12 @@ html
         table
             thead
                 tr
-                    th Property 1 Label
-                    th Property 2 Label
-                    th Property 3 Label
+                    th Pet Name
+                    th Pet Type
+                    th Weight (lbs)
             tbody
-                if data && data.length > 0
-                    each record in data
-                        tr
-                            td= record.properties.prop_1
-                            td= record.properties.prop_2
-                            td= record.properties.prop_3
-                else
-                        tr
-                            td(colspan="3") No records found.
+                each record in data
+                    tr
+                        td= record.properties.pet_name
+                        td= record.properties.pet_type
+                        td= record.properties.weight

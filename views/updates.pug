@@ -9,9 +9,14 @@ html
             h1 Update Custom Object
             a(href="/") Return to the homepage
             
-            //- You'll add your form here in the next step
             form(method="POST")
-                //- Example field (replace with your custom properties)
-                label(for="new_property") New Property Value
-                input(type="text" name="new_property" required)
+                label(for="pet_name") Pet Name
+                input(type="text" name="pet_name" required)
+                
+                label(for="pet_type") Pet Type
+                input(type="text" name="pet_type" required)
+                
+                label(for="weight") Weight
+                input(type="number" name="weight" required)
+                
                 button(type="submit") Submit
