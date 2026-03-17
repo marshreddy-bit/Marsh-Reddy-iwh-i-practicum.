@@ -30,9 +30,9 @@ app.get('/update-cobj', async (req, res) => {
 app.post('/update-cobj', async (req, res) => {
     const update = {
         properties: {
-            "first_property_name": req.body.first_property_name,
-            "second_property_name": req.body.second_property_name,
-            "third_property_name": req.body.third_property_name
+            "pet_name": req.body.first_property_name,
+            "pet_type": req.body.second_property_name,
+            "weight": req.body.third_property_name
         }
     }
 
